@@ -1,10 +1,11 @@
 package br.com.nogueiranogueira.aularefatoracao.solidproject.controller;
 
 import br.com.nogueiranogueira.aularefatoracao.solidproject.model.Usuario;
+import br.com.nogueiranogueira.aularefatoracao.solidproject.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        return ResponseEntity.ok(usuarioRepository.findAll());
+    }
 
     @PostMapping
     public ResponseEntity<String> criarUsuario(@RequestBody Usuario usuario) {
@@ -31,19 +39,12 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body("E-mail inválido");
         }
 
-        Integer count = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM usuarios WHERE email = ?",
-                Integer.class,
-                usuario.getEmail());
-        if (count != null && count > 0) {
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("E-mail já cadastrado");
         }
 
-        jdbcTemplate.update(
-                "INSERT INTO usuarios (nome, email) VALUES (?, ?)",
-                usuario.getNome(),
-                usuario.getEmail());
+        usuarioRepository.save(usuario);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(usuario.getEmail());

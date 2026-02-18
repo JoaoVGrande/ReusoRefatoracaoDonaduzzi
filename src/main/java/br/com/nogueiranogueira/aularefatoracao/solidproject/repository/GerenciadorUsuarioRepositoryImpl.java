@@ -50,3 +50,4 @@ public class GerenciadorUsuarioRepositoryImpl implements GerenciadorUsuarioRepos
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
+//várias funções dentro gerenciador

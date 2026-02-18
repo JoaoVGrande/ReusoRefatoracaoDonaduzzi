@@ -16,3 +16,4 @@ public interface GerenciadorUsuarioRepository {
     long contarUsuariosPorTipo(String tipoUsuario);
     List<Object[]> gerarRelatorioUsuariosPorTipo();
 }
+//duas funcoes dentro gerenciador
