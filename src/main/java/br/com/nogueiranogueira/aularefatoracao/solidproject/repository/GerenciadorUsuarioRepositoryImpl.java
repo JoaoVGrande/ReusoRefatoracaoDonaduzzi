@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class GerenciadorUsuarioRepositoryImpl implements GerenciadorUsuarioRepository {
+public class GerenciadorUsuarioRepositoryImpl implements UsuarioCrudRepository {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -31,23 +31,4 @@ public class GerenciadorUsuarioRepositoryImpl implements GerenciadorUsuarioRepos
     public void excluir(Usuario usuario) {
         usuarioRepository.delete(usuario);
     }
-
-    @Override
-    public java.util.List<Usuario> buscarPorFiltroAvançados(String nome, String email, String tipoUsuario) {
-        // Implementação de busca avançada usando critérios específicos
-        throw  new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long contarUsuariosPorTipo(String tipoUsuario) {
-        // Implementação de contagem de usuários por tipo
-        return usuarioRepository.countByTipo(tipoUsuario);
-    }
-
-    @Override
-    public java.util.List<Object[]> gerarRelatorioUsuariosPorTipo() {
-        // Implementação de geração de relatório de usuários por tipo
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }
-//várias funções dentro gerenciador

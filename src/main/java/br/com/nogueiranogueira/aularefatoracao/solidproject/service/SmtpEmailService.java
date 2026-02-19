@@ -3,11 +3,14 @@ package br.com.nogueiranogueira.aularefatoracao.solidproject.service;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
-public class SmtpEmailService {
+@Service
+public class SmtpEmailService implements EmailService {
 
+    @Override
     public void sendEmail(String to, String subject, String body) {
 
         Properties prop = new Properties();

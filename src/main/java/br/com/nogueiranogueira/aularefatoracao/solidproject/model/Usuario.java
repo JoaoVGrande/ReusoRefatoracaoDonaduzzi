@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Usuario {
+public class Usuario implements Descontavel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,6 +55,7 @@ public class Usuario {
         this.pontos = pontos;
     }
 
+    @Override
     public int getDesconto() {
         return 0; // desconto padrão para usuários comuns
     }

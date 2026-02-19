@@ -18,7 +18,7 @@ public class UsuarioVIP extends Usuario{
     @Override
     public int getDesconto() {
         if (!temCartaoFidelidade){
-            throw new IllegalStateException("Usuário VIP deve ter cartão fidelidade para receber desconto");
+            return 0;
         }
         return 10; // desconto de 10% para usuários VIP
     }
